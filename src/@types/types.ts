@@ -16,6 +16,7 @@ export type ProductDataProps = {
  title: string
  description: string
  thumbnail: ImageProps
+ quantity?: number
 }
 
 export type ProductProps = TouchableOpacityProps & {

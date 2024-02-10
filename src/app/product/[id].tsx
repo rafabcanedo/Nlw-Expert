@@ -1,6 +1,7 @@
 import { Image, Text, View } from "react-native";
 import { Button } from "@/components/button";
 import { LinkButton } from "@/components/link-button";
+import { Redirect } from "expo-router";
 
 import { PRODUCTS } from "@/utils/data/products";
 
@@ -14,12 +15,18 @@ export default function Product() {
  const navigation = useNavigation()
  const { id } = useLocalSearchParams()
 
- const product = PRODUCTS.filter((item) => item.id === id)[0]
- console.log(cartStore.products)
+ const product = PRODUCTS.find((item) => item.id === id)
 
  function handleAddToCart() {
-  cartStore.add(product)
-  navigation.goBack()
+  if (product) {
+    cartStore.add(product)
+    navigation.goBack()
+  }
+ }
+
+ // Condicial fot not exist products
+ if(!product) {
+  return <Redirect href="/" />
  }
 
  return (
@@ -29,6 +36,10 @@ export default function Product() {
      className="w-full h-52"
      resizeMode="cover"
     />
+
+    <Text className="text-white text-xl font-heading">
+     {product.title}
+    </Text>
 
     <View className="p-5 mt-8 flex-1">
      <Text className="text-lime-400 text-2xl font-heading my-2">
